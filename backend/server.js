@@ -17,25 +17,26 @@ mongoose.connect(uri, {
 //  const client = new MongoClient(uri);
  var db = mongoose.connection
  var parser = new xml2js.Parser();
- app.post('/data',(req, res)=>{
+ 
     fs.readFile('contacts.xml', function(err, data) {
         parser.parseString(data,function(err, result){
            db.collection('contacts').insert({result}, function(error, record){
                if (error) throw error;
                console.log("data saved");
                });
+               console.log(util.inspect(result,false,null,true));
 
-               db.collection("contacts").find({}).toArray(function(err, result) {
-                if (err) throw err;
-                res.status(200).json({result})
-                db.close();
+              //  db.collection("contacts").find({}).toArray(function(err, result) {
+              //   if (err) throw err;
+              //   res.status(200).json({result})
+              //   db.close();
               });
-           console.log(util.inspect(result,false,null,true));
+          
            
            console.log("finished");
    
         })
-    })
+  
 
- })
+
  app.listen(PORT, ()=> console.log("Server started on" + PORT));
